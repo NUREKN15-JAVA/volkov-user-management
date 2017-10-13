@@ -1,6 +1,10 @@
 package ua.nure.usermanagement;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.Year;
+import java.time.temporal.*;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,11 +52,7 @@ public class User {
         return lastName.concat(", ").concat(firstName);
     }
 
-    public int getAge() throws Exception {
-//        throw new Exception("Method is not implemented");
-        Calendar calendar = Calendar.getInstance();
-        LocalDate date = LocalDate.now();
-        calendar.set(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
-        return 0;
+    public long getAge() {
+        return (LocalDate.now().getLong(ChronoField.EPOCH_DAY) - dateOfBirth.getTime()/1000/60/60/24)/365;
     }
 }
