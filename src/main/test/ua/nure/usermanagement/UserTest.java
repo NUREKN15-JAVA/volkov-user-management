@@ -3,6 +3,7 @@ package ua.nure.usermanagement;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;

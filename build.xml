@@ -22,7 +22,10 @@
                 <pathelement location="${build-dir}"/>
             </classpath>
             <formatter type="plain"/>
-            <test name="ua.nure.usermanagement.UserTest"/>
+            <batchtest todir="${basedir}">
+                <fileset dir="${test-java-dir}"/>
+            </batchtest>
+           <!-- <test name="ua.nure.usermanagement.UserTest"/> -->
         </junit>
     </target>
     <target name="test-compile" depends="compile">
