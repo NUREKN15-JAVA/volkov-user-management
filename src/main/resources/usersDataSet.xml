@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <table name="users">
+        <column>id</column>
+        <column>firstname</column>
+        <column>lastname</column>
+        <column>dateofbirth</column>
+        <row>
+            <value>1000</value>
+            <value>Rick</value>
+            <value>Sanchez</value>
+            <value>1920-06-13</value>
+        </row>
+        <row>
+            <value>1001</value>
+            <value>Morty</value>
+            <value>Smith</value>
+            <value>1999-07-25</value>
+        </row>
+    </table>
+</dataset>
