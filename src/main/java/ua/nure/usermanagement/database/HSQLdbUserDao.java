@@ -4,8 +4,6 @@ import ua.nure.usermanagement.User;
 import ua.nure.usermanagement.database.exception.DatabaseException;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -84,7 +82,7 @@ class HSQLdbUserDao implements UserDao {
                 createdUser.setId(new Long(resultSet.getLong(1)));
                 createdUser.setLastName(resultSet.getString(3));
                 createdUser.setFirstName(resultSet.getString(2));
-                createdUser.setDateOfBirth(resultSet.getDate(4));
+                createdUser.setDateOfBirth(new java.util.Date(resultSet.getDate(4).getTime()));
             }
             resultSet.close();
             statement.close();
@@ -109,7 +107,7 @@ class HSQLdbUserDao implements UserDao {
                 createdUser.setId(new Long(resultSet.getLong(1)));
                 createdUser.setFirstName(resultSet.getString(2));
                 createdUser.setLastName(resultSet.getString(3));
-                createdUser.setDateOfBirth(resultSet.getDate(4));
+                createdUser.setDateOfBirth(new java.util.Date(resultSet.getDate(4).getTime()));
                 userList.add(createdUser);
             }
 

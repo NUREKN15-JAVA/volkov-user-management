@@ -87,16 +87,6 @@ public class User implements Comparable<User> {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                '}';
-    }
-
-    @Override
     public int compareTo(User o) {
         if (this.equals(o)) {
             return 0;
@@ -114,5 +104,15 @@ public class User implements Comparable<User> {
             return -1;
         }
         return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }

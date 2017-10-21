@@ -59,6 +59,21 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
     }
 
     public void testFind() throws Exception {
+        User morty = new User();
+        morty.setId(1001L);
+        morty.setFirstName("Morty");
+        morty.setLastName("Smith");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(1999, Calendar.JULY, 25, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        morty.setDateOfBirth(calendar.getTime());
+
+        User result = dao.find(1001L);
+
+        assertEquals("Wrong first name",morty.getFirstName(),result.getFirstName());
+        assertEquals("Wrong last name",morty.getLastName(),result.getLastName());
+        assertEquals("Wrong id",morty.getId(),result.getId());
+        assertEquals("Wrong date of birth",morty.getDateOfBirth(),result.getDateOfBirth());
     }
 
     public void testFindAll() throws Exception {
