@@ -5,6 +5,9 @@ import ua.nure.usermanagement.database.exception.DatabaseException;
 
 import java.util.Collection;
 
+/**
+ * An interface that defines DAO, that works with table users
+ */
 public interface UserDao {
 
     /**
@@ -40,10 +43,14 @@ public interface UserDao {
 
     /**
      *
-     * @return
+     * @return returns a collection, that contains all data in table users of db
      * @throws DatabaseException
      */
     public Collection<User> findAll() throws DatabaseException;
 
+    /**
+     *
+     * @param factory a factory that will be used to generate connections for this DAO
+     */
     public void setConnectionFactory(ConnectionFactory factory);
 }

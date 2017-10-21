@@ -11,6 +11,9 @@ import ua.nure.usermanagement.database.exception.DatabaseException;
 
 import java.util.*;
 
+/**
+ * A test case for checking HSQL db userDAo implementation of UserDao interface
+ */
 public class HSQLdbUserDaoTest extends DatabaseTestCase {
 
     private HSQLdbUserDao dao;
@@ -33,7 +36,9 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
         dao = new HSQLdbUserDao(connectionFactory);
     }
 
-
+    /**
+     * Tests work of create() method. Given a user with id=null, this method must return user with some value of id, assigned by db
+     */
     public void testCreate() {
         try {
             User user = new User();
@@ -51,6 +56,10 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
         }
     }
 
+    /**
+     * Tests work of update() method. Given a user with all fields filled, it must update the necessary entry in db
+     * @throws Exception
+     */
     public void testUpdate() throws Exception {
         try {
             User morty = new User();
@@ -71,6 +80,10 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
         }
     }
 
+    /**
+     * Tests work of delete() method. Given a user with id field filled, it must delete the necessary entry in db
+     * @throws Exception
+     */
     public void testDelete() throws Exception {
         try {
             User morty = new User();
@@ -90,6 +103,10 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
         }
     }
 
+    /**
+     * Tests work of find(Long id) method. Given a Long id it must find the necessary entry in db
+     * @throws Exception
+     */
     public void testFind() throws Exception {
         User morty = new User();
         morty.setId(1001L);
@@ -108,6 +125,10 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
         assertEquals("Wrong date of birth",morty.getDateOfBirth(),result.getDateOfBirth());
     }
 
+    /**
+     * Tests work of findAll() method. It must return all entries of table users in db
+     * @throws Exception
+     */
     public void testFindAll() throws Exception {
         assertNotNull(dao.findAll());
         int AMOUNT_OF_ENTRIES_IN_DB = 2;

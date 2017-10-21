@@ -5,6 +5,9 @@ import ua.nure.usermanagement.database.exception.DatabaseException;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * A singleton used for producing DAOs
+ */
 public class DaoFactory {
     public static final String USER_DAO_PROP = "ua.nure.usermanagement.database.userDao";
     private final Properties properties = new Properties();
@@ -18,10 +21,18 @@ public class DaoFactory {
         }
     }
 
+    /**
+     *
+     * @return current instace of DaoFactory
+     */
     public static DaoFactory getInstance() {
         return instance;
     }
 
+    /**
+     * A private method that generates a connection factory based on the current settings, listed in settings.properties file
+     * @return generated connection factory
+     */
     private ConnectionFactory getConnectionFactory() {
         ConnectionFactory connectionFactory = null;
         try {
@@ -33,6 +44,10 @@ public class DaoFactory {
         return connectionFactory;
     }
 
+    /**
+     * Generates a new user DAO based on the current parameters of the system.
+     * @return a new DAO for a currently used database (defined by USER_DAO_PROP variable)
+     */
     public UserDao getUserDao() {
         UserDao result = null;
         try {

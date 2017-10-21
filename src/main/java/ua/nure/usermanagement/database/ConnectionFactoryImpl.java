@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**An implementation of connection factory interface
+ * @see ua.nure.usermanagement.database.ConnectionFactory
+ */
 public class ConnectionFactoryImpl implements ConnectionFactory {
 
     private String driver;
@@ -20,6 +23,11 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
         this.password = password;
     }
 
+    /**
+     * @see ConnectionFactory#createConnection()
+     * @return  eturns generated connection based on parameters driver, url, user, password
+     * @throws DatabaseException
+     */
     @Override
     public Connection createConnection() throws DatabaseException {
         try {

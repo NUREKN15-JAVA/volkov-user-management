@@ -3,6 +3,9 @@ package ua.nure.usermanagement.database;
 import junit.framework.TestCase;
 import ua.nure.usermanagement.User;
 
+/**
+ * A test case for DaoFactory class
+ */
 public class DaoFactoryTest extends TestCase {
 
     private DaoFactory factory;
@@ -12,6 +15,11 @@ public class DaoFactoryTest extends TestCase {
         factory = DaoFactory.getInstance();
     }
 
+    /**
+     * Tests, whether or not method getUserDao() returns a UserDao item, or not. Also, it checks, if
+     * the DaoFactory is created via getInstace method.
+     * @throws Exception
+     */
     public void testGetUserDao() throws Exception {
         assertNotNull("DaoFactory is null", factory);
         UserDao dao = factory.getUserDao();

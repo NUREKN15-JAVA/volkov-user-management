@@ -12,6 +12,9 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
+/**
+ * A test case for checking User class
+ */
 public class UserTest {
 
     private User user;
@@ -22,6 +25,9 @@ public class UserTest {
         user = new User();
     }
 
+    /**
+     * Checks general algorithm for getFullName method.
+     */
     @Test
     public void getFullName() {
         user.setFirstName("Yevhenii");
@@ -29,6 +35,9 @@ public class UserTest {
         assertEquals("Volkov, Yevhenii",user.getFullName());
     }
 
+    /**
+     * Checks, if the method throws exception, if any of first or last name weren't added.
+     */
     @Test
     public void getFullNameIfNameIsEmpty(){
         try{
@@ -40,10 +49,7 @@ public class UserTest {
     }
 
     /**
-     * Рассчётная формула в Expected как две капли воды похожа на ту, что используется в методе {@code user.getAge()}.
-     * Причина тому в том, что это единственный нормальный способ точного получения возраста человека, по крайней мере
-     * с использованием класса {@code Date}
-     *
+     * Checks, whether method getAge returns correct age of a user
      */
     @Test
     public void getAge()  {

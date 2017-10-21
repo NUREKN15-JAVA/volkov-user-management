@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.Date;
 
-
-public class User implements Comparable<User> {
+/**
+ * A class-container for information about one user. Contained data corresponds to table users in usermanager db.
+ */
+public class User{
     private Long id;
     private String firstName;
     private String lastName;
@@ -54,11 +56,19 @@ public class User implements Comparable<User> {
         this.dateOfBirth = dateOfBirth;
     }
 
+    /**
+     *
+     * @return a string, that contains both first and last name of user, uses ', ' as delimiter
+     */
     public String getFullName() {
 
         return lastName.concat(", ").concat(firstName);
     }
 
+    /**
+     *
+     * @return a long, that represents users age in years.
+     */
     public long getAge() {
         return (LocalDate.now().getLong(ChronoField.EPOCH_DAY) - dateOfBirth.getTime() / 1000 / 60 / 60 / 24) / 365;
     }
@@ -84,26 +94,6 @@ public class User implements Comparable<User> {
         result = 31 * result + lastName.hashCode();
         result = 31 * result + dateOfBirth.hashCode();
         return result;
-    }
-
-    @Override
-    public int compareTo(User o) {
-        if (this.equals(o)) {
-            return 0;
-        }
-        if (this.id < o.id) {
-            return -1;
-        }
-        if (this.firstName.compareTo(o.firstName) < 0) {
-            return -1;
-        }
-        if (this.lastName.compareTo(o.lastName) < 0) {
-            return -1;
-        }
-        if (this.dateOfBirth.compareTo(o.dateOfBirth) < 0) {
-            return -1;
-        }
-        return 1;
     }
 
     @Override

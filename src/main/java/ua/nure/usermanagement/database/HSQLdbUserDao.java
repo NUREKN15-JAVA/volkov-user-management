@@ -7,6 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * A UserDao implementation for HSQL database
+ * @see ua.nure.usermanagement.database.UserDao
+ */
 class HSQLdbUserDao implements UserDao {
     public static final String INSERT_INTO_USERS_FIRSTNAME_LASTNAME_DATEOFBIRTH_VALUES = "insert INTO users(firstname,lastname,dateofbirth) values(?,?,?)";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
@@ -30,6 +34,13 @@ class HSQLdbUserDao implements UserDao {
         this.connectionFactory = connectionFactory;
     }
 
+    /**
+     *
+     * @param user all fields of user must be filled except of id
+     *             id must be null
+     * @return a copy of user, that contains id assigned to it by db
+     * @throws DatabaseException
+     */
     @Override
     public User create(User user) throws DatabaseException {
         try {
@@ -60,7 +71,11 @@ class HSQLdbUserDao implements UserDao {
         }
     }
 
-
+    /**
+     * Updates values of user entry, that has id that equals the the one in the parameter
+     * @param user all fields of user must be filled
+     * @throws DatabaseException
+     */
     @Override
     public void update(User user) throws DatabaseException {
         try{
@@ -78,6 +93,11 @@ class HSQLdbUserDao implements UserDao {
         }
     }
 
+    /**
+     * Deletes user entry, that has id that equals the the one in the parameter
+     * @param user all fields of user must be filled
+     * @throws DatabaseException
+     */
     @Override
     public void delete(User user) throws DatabaseException {
         try{
@@ -93,6 +113,12 @@ class HSQLdbUserDao implements UserDao {
 
     }
 
+    /**
+     *Finds and returns a user entry based on its id
+     * @param id must not be null
+     * @return user with id equal to the one, sent to the method
+     * @throws DatabaseException
+     */
     @Override
     public User find(Long id) throws DatabaseException {
         try {
@@ -119,6 +145,11 @@ class HSQLdbUserDao implements UserDao {
         }
     }
 
+    /**
+     *
+     * @return returns all entries in users table as a collection
+     * @throws DatabaseException
+     */
     @Override
     public Collection<User> findAll() throws DatabaseException {
         Collection<User> userList = new ArrayList<>();
