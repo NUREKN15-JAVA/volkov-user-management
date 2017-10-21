@@ -28,7 +28,7 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
             throw new RuntimeException();
         }
         try {
-            return DriverManager.getConnection(url,user,password);
+            return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             throw new DatabaseException();
         }

@@ -31,9 +31,9 @@ public interface UserDao {
     public void delete(User user) throws DatabaseException;
 
     /**
-     *
-     * @param id
-     * @return
+     * Find user with id in db
+     * @param id must not be null
+     * @return a user with id
      * @throws DatabaseException
      */
     public User find(Long id) throws DatabaseException;
@@ -44,4 +44,6 @@ public interface UserDao {
      * @throws DatabaseException
      */
     public Collection<User> findAll() throws DatabaseException;
+
+    public void setConnectionFactory(ConnectionFactory factory);
 }

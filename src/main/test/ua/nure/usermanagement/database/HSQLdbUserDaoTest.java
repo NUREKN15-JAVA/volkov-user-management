@@ -15,6 +15,7 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
 
     private HSQLdbUserDao dao;
     private ConnectionFactory connectionFactory;
+    private final int AMOUNT_OF_ENTRIES_IN_DB = 2;
 
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
@@ -61,8 +62,8 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
     }
 
     public void testFindAll() throws Exception {
-
-        assertEquals(2,dao.findAll().size());
+        assertNotNull(dao.findAll());
+        assertEquals("Collection size: ",AMOUNT_OF_ENTRIES_IN_DB, dao.findAll().size());
     }
 
 }

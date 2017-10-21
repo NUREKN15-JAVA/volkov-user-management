@@ -9,13 +9,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class HSQLdbUserDao implements UserDao {
+class HSQLdbUserDao implements UserDao {
     public static final String INSERT_INTO_USERS_FIRSTNAME_LASTNAME_DATEOFBIRTH_VALUES = "insert INTO users(firstname,lastname,dateofbirth) values(?,?,?)";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private static final String SELECT_ALL_USERS = "SELECT * FROM users";
+    private static final String SELECT_ALL_USERS = "SELECT id,firstname,lastname,dateofbirth FROM users";
     ConnectionFactory connectionFactory;
 
     public HSQLdbUserDao(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
+
+    public HSQLdbUserDao() {
+    }
+
+    public ConnectionFactory getConnectionFactory() {
+        return connectionFactory;
+    }
+
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 
@@ -89,17 +100,16 @@ public class HSQLdbUserDao implements UserDao {
     @Override
     public Collection<User> findAll() throws DatabaseException {
         Collection<User> userList = new ArrayList<>();
-                try {
-                    Connection connection = connectionFactory.createConnection();
-                    Statement statement = connection.createStatement();
-                    ResultSet resultSet = statement.executeQuery(SELECT_ALL_USERS);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    while (resultSet.next()) {
-                        User createdUser = new User();
-                        createdUser.setId(new Long(resultSet.getLong(1)));
-                        createdUser.setFirstName(resultSet.getString(2));
-                        createdUser.setLastName(resultSet.getString(3));
-                        createdUser.setDateOfBirth(format.parse(resultSet.getString(4)));
+        try {
+            Connection connection = connectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_USERS);
+            while (resultSet.next()) {
+                User createdUser = new User();
+                createdUser.setId(new Long(resultSet.getLong(1)));
+                createdUser.setFirstName(resultSet.getString(2));
+                createdUser.setLastName(resultSet.getString(3));
+                createdUser.setDateOfBirth(resultSet.getDate(4));
                 userList.add(createdUser);
             }
 
@@ -111,9 +121,6 @@ public class HSQLdbUserDao implements UserDao {
             throw new DatabaseException(e);
         } catch (DatabaseException e1) {
             throw e1;
-        } catch (ParseException e2) {
-            e2.printStackTrace();
-            return userList;
         }
     }
 }
