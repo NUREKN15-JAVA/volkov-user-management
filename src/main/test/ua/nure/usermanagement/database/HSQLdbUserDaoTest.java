@@ -15,7 +15,6 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
 
     private HSQLdbUserDao dao;
     private ConnectionFactory connectionFactory;
-    private final int AMOUNT_OF_ENTRIES_IN_DB = 2;
 
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
@@ -53,9 +52,42 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
     }
 
     public void testUpdate() throws Exception {
+        try {
+            User morty = new User();
+            morty.setId(1001L);
+            morty.setFirstName("Morty");
+            morty.setLastName("Sanchez");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(1999, Calendar.JULY, 25, 0, 0, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            morty.setDateOfBirth(calendar.getTime());
+            dao.update(morty);
+            User updatedUser = dao.find(1001L);
+
+            assertEquals(morty, updatedUser);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            fail(e.toString());
+        }
     }
 
     public void testDelete() throws Exception {
+        try {
+            User morty = new User();
+            morty.setId(1001L);
+            morty.setFirstName("Morty");
+            morty.setLastName("Sanchez");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(1999, Calendar.JULY, 25, 0, 0, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            morty.setDateOfBirth(calendar.getTime());
+            dao.delete(morty);
+            User deletedUser = dao.find(1001L);
+            assertNotSame("Entry wasn't deleted",morty, deletedUser);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            fail(e.toString());
+        }
     }
 
     public void testFind() throws Exception {
@@ -78,7 +110,8 @@ public class HSQLdbUserDaoTest extends DatabaseTestCase {
 
     public void testFindAll() throws Exception {
         assertNotNull(dao.findAll());
-        assertEquals("Collection size: ",AMOUNT_OF_ENTRIES_IN_DB, dao.findAll().size());
+        int AMOUNT_OF_ENTRIES_IN_DB = 2;
+        assertEquals("Collection size: ", AMOUNT_OF_ENTRIES_IN_DB, dao.findAll().size());
     }
 
 }
