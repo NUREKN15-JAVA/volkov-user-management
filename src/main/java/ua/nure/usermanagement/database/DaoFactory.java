@@ -8,16 +8,19 @@ import java.util.Properties;
 /**
  * A singleton used for producing DAOs
  */
-public class DaoFactory {
-    private static final String USER_DAO_PROP = "ua.nure.usermanagement.database.userDao";
-    private final Properties properties = new Properties();
-    private static DaoFactory instance = new DaoFactory();
+public abstract class DaoFactory {
+    protected static final String USER_DAO_PROP = "ua.nure.usermanagement.database.UserDao";
+    protected static Properties properties;
+    protected static final String DAO_FACTORY = "dao.factory";
 
-    private DaoFactory() {
+    protected static DaoFactory instance;
+
+    static {
+        properties = new Properties();
         try {
-            properties.load(getClass().getClassLoader().getResourceAsStream("settings.properties"));
+            properties.load(DaoFactory.class.getClassLoader().getResourceAsStream("settings.properties"));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -25,7 +28,15 @@ public class DaoFactory {
      *
      * @return current instance of DaoFactory
      */
-    public static DaoFactory getInstance() {
+    public static synchronized DaoFactory getInstance() {
+        if(instance == null){
+            try{
+                Class factoryClass = Class.forName(properties.getProperty(DAO_FACTORY));
+                instance = ((DaoFactory)factoryClass.newInstance());
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
         return instance;
     }
 
@@ -33,31 +44,20 @@ public class DaoFactory {
      * A private method that generates a connection factory based on the current settings, listed in settings.properties file
      * @return generated connection factory
      */
-    private ConnectionFactory getConnectionFactory() {
-        ConnectionFactory connectionFactory = null;
-        try {
-            connectionFactory = new ConnectionFactoryImpl(properties.getProperty("driver"), properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"));
-            return connectionFactory;
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
-        return connectionFactory;
+    protected ConnectionFactory getConnectionFactory() throws DatabaseException {
+        return new ConnectionFactoryImpl(properties);
     }
 
     /**
      * Generates a new user DAO based on the current parameters of the system.
      * @return a new DAO for a currently used database (defined by USER_DAO_PROP variable)
      */
-    public UserDao getUserDao() {
-        UserDao result = null;
-        try {
-            Class clazz = Class.forName(properties.getProperty(USER_DAO_PROP));
-            UserDao userDao = (UserDao) clazz.newInstance();
-            userDao.setConnectionFactory(getConnectionFactory());
-            result = userDao;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return result;
+//    {
+
+    public abstract UserDao getUserDao();
+
+    public static void init(Properties prop){
+        DaoFactory.properties = prop;
+        instance = null;
     }
 }

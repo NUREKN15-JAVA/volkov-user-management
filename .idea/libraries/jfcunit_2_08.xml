@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jfcunit-2.08">
+    <CLASSES>
+      <root url="jar://D:/Tools/Java/jfcunit-2.08.jar!/" />
+      <root url="jar://D:/Tools/Java/regexp-1.3.jar!/" />
+      <root url="jar://D:/Tools/Java/mockobjects-core-0.09.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

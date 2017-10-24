@@ -5,6 +5,7 @@ import ua.nure.usermanagement.database.exception.DatabaseException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**An implementation of connection factory interface
  * @see ua.nure.usermanagement.database.ConnectionFactory
@@ -21,6 +22,13 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
         this.url = url;
         this.user = user;
         this.password = password;
+    }
+
+    public ConnectionFactoryImpl(Properties properties) {
+        driver = properties.getProperty("connection.driver");
+        url = properties.getProperty("connection.url");
+        user = properties.getProperty("connection.user");
+        password = properties.getProperty("connection.password");
     }
 
     /**
