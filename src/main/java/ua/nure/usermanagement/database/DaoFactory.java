@@ -55,12 +55,8 @@ public class DaoFactory {
             UserDao userDao = (UserDao) clazz.newInstance();
             userDao.setConnectionFactory(getConnectionFactory());
             result = userDao;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return result;
     }
