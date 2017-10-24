@@ -9,7 +9,7 @@ import java.util.Properties;
  * A singleton used for producing DAOs
  */
 public class DaoFactory {
-    public static final String USER_DAO_PROP = "ua.nure.usermanagement.database.userDao";
+    private static final String USER_DAO_PROP = "ua.nure.usermanagement.database.userDao";
     private final Properties properties = new Properties();
     private static DaoFactory instance = new DaoFactory();
 
@@ -23,7 +23,7 @@ public class DaoFactory {
 
     /**
      *
-     * @return current instace of DaoFactory
+     * @return current instance of DaoFactory
      */
     public static DaoFactory getInstance() {
         return instance;

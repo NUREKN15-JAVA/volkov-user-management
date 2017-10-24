@@ -25,7 +25,7 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
 
     /**
      * @see ConnectionFactory#createConnection()
-     * @return  eturns generated connection based on parameters driver, url, user, password
+     * @return  returns generated connection based on parameters driver, url, user, password
      * @throws DatabaseException
      */
     @Override

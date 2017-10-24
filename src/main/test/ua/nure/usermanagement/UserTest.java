@@ -57,7 +57,7 @@ public class UserTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(birthYear,Calendar.OCTOBER,24);
         user.setDateOfBirth(new Date(calendar.getTimeInMillis()));
-        assertEquals((LocalDate.now().getLong(ChronoField.EPOCH_DAY) - calendar.getTimeInMillis()/1000/60/60/24)/365, user.getAge());
+        assertEquals((LocalDate.now().getYear() - birthYear), user.getAge());
     }
 
 }
