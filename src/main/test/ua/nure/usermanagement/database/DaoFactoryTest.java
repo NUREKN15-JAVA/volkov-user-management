@@ -18,6 +18,7 @@ public class DaoFactoryTest extends TestCase {
     /**
      * Tests, whether or not method getUserDao() returns a UserDao item, or not. Also, it checks, if
      * the DaoFactory is created via getInstance method.
+     *
      * @throws Exception
      */
     public void testGetUserDao() throws Exception {

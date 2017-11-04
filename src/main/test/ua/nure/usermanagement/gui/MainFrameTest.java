@@ -9,6 +9,7 @@ import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import ua.nure.usermanagement.User;
 import ua.nure.usermanagement.database.DaoFactory;
 import ua.nure.usermanagement.database.MockDaoFactory;
+import ua.nure.usermanagement.util.TextManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class MainFrameTest extends JFCTestCase {
 
-    public static final int ROW_AMM = 2;
+    public static final int ROW_AMM = 1;
     private Container mainFrame;
     private final int COLUMN_AMM = 3;
     private Mock mockUserDao;
@@ -36,9 +37,9 @@ public class MainFrameTest extends JFCTestCase {
         find(JPanel.class, "browsePanel");
         JTable table = (JTable) find(JTable.class, "userTable");
         assertEquals(COLUMN_AMM, table.getColumnCount());
-        assertEquals("ID", table.getColumnName(0));
-        assertEquals("First name", table.getColumnName(0));
-        assertEquals("Last name", table.getColumnName(0));
+        assertEquals(TextManager.getString("userTableModel.id"), table.getColumnName(0));
+        assertEquals(TextManager.getString("userTableModel.first.name"), table.getColumnName(1));
+        assertEquals(TextManager.getString("userTableModel.last.name"), table.getColumnName(2));
         assertEquals(ROW_AMM, table.getRowCount());
         find(JButton.class, "addButton");
         find(JButton.class, "editButton");
@@ -59,7 +60,7 @@ public class MainFrameTest extends JFCTestCase {
             mockUserDao.expectAndReturn("findAll", users);
             setHelper(new JFCTestHelper());
             mainFrame = new MainFrame();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         mainFrame.setVisible(true);
@@ -67,16 +68,21 @@ public class MainFrameTest extends JFCTestCase {
 
     @Override
     protected void tearDown() throws Exception {
-        mockUserDao.verify();
         mainFrame.setVisible(false);
         JFCTestHelper.cleanUp(this);
+        mockUserDao.verify();
         super.tearDown();
     }
 
     public void testAddUser() {
         String firstName = "Jerry";
         String lastName = "Smith";
-        Date birthDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.set(year, month, day, 0, 0, 0);
+        Date birthDate = calendar.getTime();
 
         User user = new User(firstName, lastName, birthDate);
         User expectedUser = new User(new Long(1), firstName, lastName, birthDate);
@@ -98,7 +104,7 @@ public class MainFrameTest extends JFCTestCase {
         fillField(firstName, lastName, birthDate);
 
         find(JButton.class, "cancelButton");
-        JButton okButton = ((JButton) find(JButton.class, "addButton"));
+        JButton okButton = ((JButton) find(JButton.class, "okButton"));
 
         getHelper().enterClickAndLeave(new MouseEventData(this, okButton));
 
@@ -111,18 +117,8 @@ public class MainFrameTest extends JFCTestCase {
     }
 
     public void testAddUserIfCancel() {
-        String firstName = "Jerry";
-        String lastName = "Smith";
-        Date birthDate = new Date();
-
-        User user = new User(firstName, lastName, birthDate);
-        User expectedUser = new User(new Long(1), firstName, lastName, birthDate);
-
-        mockUserDao.expectAndReturn("create", user, expectedUser);
-
         List<User> users = new ArrayList<>(this.users);
 
-        users.add(expectedUser);
         mockUserDao.expectAndReturn("findAll", users);
 
         JTable table = (JTable) find(JTable.class, "userTable");
@@ -132,10 +128,9 @@ public class MainFrameTest extends JFCTestCase {
         getHelper().enterClickAndLeave(new MouseEventData(this, addButton));
 
         find(JPanel.class, "addPanel");
-        fillField(firstName, lastName, birthDate);
 
         JButton cancelButton = (JButton) find(JButton.class, "cancelButton");
-        find(JButton.class, "addButton");
+        find(JButton.class, "okButton");
 
         getHelper().enterClickAndLeave(new MouseEventData(this, cancelButton));
 
@@ -160,4 +155,29 @@ public class MainFrameTest extends JFCTestCase {
 
     }
     //Нужно ещё 6 методов на кнопки edit, remove, details
+
+    public void testDetails() {
+        List<User> users = new ArrayList<>(this.users);
+
+        mockUserDao.expectAndReturn("findAll", users);
+
+        JTable table = (JTable) find(JTable.class, "userTable");
+        assertEquals(1, table.getRowCount());
+
+        JButton detailsButton = (JButton) find(JButton.class, "detailsButton");
+
+        getHelper().enterClickAndLeave(new MouseEventData(this, table));
+
+        getHelper().enterClickAndLeave(new MouseEventData(this, detailsButton));
+
+        find(JPanel.class, "detailsPanel");
+
+        JButton backButton = (JButton) find(JButton.class, "backButton");
+
+        getHelper().enterClickAndLeave(new MouseEventData(this, backButton));
+
+        find(JPanel.class, "browsePanel");
+
+        mockUserDao.verify();
+    }
 }

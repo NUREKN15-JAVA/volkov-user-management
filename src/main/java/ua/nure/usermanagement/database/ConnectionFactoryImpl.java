@@ -7,7 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**An implementation of connection factory interface
+/**
+ * An implementation of connection factory interface
+ *
  * @see ua.nure.usermanagement.database.ConnectionFactory
  */
 public class ConnectionFactoryImpl implements ConnectionFactory {
@@ -32,9 +34,9 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
     }
 
     /**
+     * @return returns generated connection based on parameters driver, url, user, password
+     * @throws DatabaseException if an error comes up in a database
      * @see ConnectionFactory#createConnection()
-     * @return  returns generated connection based on parameters driver, url, user, password
-     * @throws DatabaseException
      */
     @Override
     public Connection createConnection() throws DatabaseException {

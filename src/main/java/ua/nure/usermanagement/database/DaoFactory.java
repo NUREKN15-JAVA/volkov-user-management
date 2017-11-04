@@ -25,15 +25,14 @@ public abstract class DaoFactory {
     }
 
     /**
-     *
      * @return current instance of DaoFactory
      */
     public static synchronized DaoFactory getInstance() {
-        if(instance == null){
-            try{
+        if (instance == null) {
+            try {
                 Class factoryClass = Class.forName(properties.getProperty(DAO_FACTORY));
-                instance = ((DaoFactory)factoryClass.newInstance());
-            }catch (Exception e){
+                instance = ((DaoFactory) factoryClass.newInstance());
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -42,6 +41,7 @@ public abstract class DaoFactory {
 
     /**
      * A private method that generates a connection factory based on the current settings, listed in settings.properties file
+     *
      * @return generated connection factory
      */
     protected ConnectionFactory getConnectionFactory() throws DatabaseException {
@@ -50,13 +50,13 @@ public abstract class DaoFactory {
 
     /**
      * Generates a new user DAO based on the current parameters of the system.
+     *
      * @return a new DAO for a currently used database (defined by USER_DAO_PROP variable)
      */
 //    {
-
     public abstract UserDao getUserDao();
 
-    public static void init(Properties prop){
+    public static void init(Properties prop) {
         DaoFactory.properties = prop;
         instance = null;
     }

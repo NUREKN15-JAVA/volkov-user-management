@@ -10,10 +10,7 @@ public class DaoFactoryImpl extends DaoFactory {
             UserDao userDao = (UserDao) clazz.newInstance();
             userDao.setConnectionFactory(getConnectionFactory());
             result = userDao;
-        } catch (
-                Exception e)
-
-        {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return result;
