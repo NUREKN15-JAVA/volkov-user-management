@@ -7,9 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.util.ArrayList;
 
+
+/**
+ * Represents a panel, that implements GUI for browsing users database
+ */
 public class BrowsePanel extends JPanel implements ActionListener {
 
     private MainFrame parentFrame;
@@ -22,11 +25,14 @@ public class BrowsePanel extends JPanel implements ActionListener {
     private JTable userTable;
 
 
-    public BrowsePanel(MainFrame mainFrame) {
+    BrowsePanel(MainFrame mainFrame) {
         this.parentFrame = mainFrame;
         initialize();
     }
 
+    /**
+     * Initializes UI of the panel
+     */
     private void initialize() {
         this.setName("browsePanel");
         this.setLayout(new BorderLayout());
@@ -34,14 +40,14 @@ public class BrowsePanel extends JPanel implements ActionListener {
         this.add(getButtonsPanel(), BorderLayout.SOUTH);
     }
 
-    public JScrollPane getTablePanel() {
+    private JScrollPane getTablePanel() {
         if (tablePanel == null) {
             tablePanel = new JScrollPane(getUserTable());
         }
         return tablePanel;
     }
 
-    public JPanel getButtonsPanel() {
+    private JPanel getButtonsPanel() {
         if (buttonsPanel == null) {
             buttonsPanel = new JPanel();
             buttonsPanel.add(getAddButton());
@@ -52,7 +58,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         return buttonsPanel;
     }
 
-    public JButton getAddButton() {
+    private JButton getAddButton() {
         if (addButton == null) {
             addButton = new JButton();
             addButton.setText(TextManager.getString("browsePanel.add"));
@@ -63,7 +69,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         return addButton;
     }
 
-    public JButton getEditButton() {
+    private JButton getEditButton() {
         if (editButton == null) {
             editButton = new JButton();
             editButton.setText(TextManager.getString("browsePanel.edit"));
@@ -74,7 +80,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         return editButton;
     }
 
-    public JButton getDeleteButton() {
+    private JButton getDeleteButton() {
         if (deleteButton == null) {
             deleteButton = new JButton();
             deleteButton.setText(TextManager.getString("browsePanel.delete"));
@@ -85,7 +91,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         return deleteButton;
     }
 
-    public JButton getDetailsButton() {
+    private JButton getDetailsButton() {
         if (detailsButton == null) {
             detailsButton = new JButton();
             detailsButton.setText(TextManager.getString("browsePanel.details"));
@@ -96,7 +102,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         return detailsButton;
     }
 
-    public JTable getUserTable() {
+    private JTable getUserTable() {
         if (userTable == null) {
             userTable = new JTable();
             userTable.setName("userTable");
@@ -104,7 +110,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         return userTable;
     }
 
-    public void initTable() {
+    void initTable() {
         try {
             userTable.setModel(new UserTableModel(parentFrame.getUserDao().findAll()));
         } catch (DatabaseException e) {
@@ -113,6 +119,11 @@ public class BrowsePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Implements functionality of buttons inside BrowsePanel
+     *
+     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();

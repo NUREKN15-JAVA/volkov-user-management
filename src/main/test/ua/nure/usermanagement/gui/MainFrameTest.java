@@ -5,7 +5,6 @@ import junit.extensions.jfcunit.JFCTestCase;
 import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.eventdata.StringEventData;
-import junit.extensions.jfcunit.finder.ComponentFinder;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import ua.nure.usermanagement.User;
 import ua.nure.usermanagement.database.DaoFactory;
@@ -18,6 +17,9 @@ import java.text.DateFormat;
 import java.util.*;
 import java.util.List;
 
+/**
+ * A test case for checking proper work and composition of user management applications GUI
+ */
 public class MainFrameTest extends JFCTestCase {
 
     public static final int ROW_AMM = 1;
@@ -26,6 +28,13 @@ public class MainFrameTest extends JFCTestCase {
     private Mock mockUserDao;
     private List<User> users;
 
+    /**
+     * A method, that find a component of specific class inside the visible frame
+     *
+     * @param componentClass A class of the UI component
+     * @param name           A name for the UI component, that need to be found
+     * @return Found component. If component is not found, generates assertion error
+     */
     private Component find(Class componentClass, String name) {
         NamedComponentFinder finder = new NamedComponentFinder(componentClass, name);
         finder.setWait(0);
@@ -34,14 +43,9 @@ public class MainFrameTest extends JFCTestCase {
         return component;
     }
 
-    private Component findByIndex(Class componentClass, Container container, Integer index) {
-        ComponentFinder finder = new ComponentFinder(componentClass);
-        finder.setWait(0);
-        Component component = finder.find(container, index);
-        assertNotNull(component);
-        return component;
-    }
-
+    /**
+     * Tests UI of BrowsePanel class
+     */
     public void testBrowseControl() {
         find(JPanel.class, "browsePanel");
         JTable table = (JTable) find(JTable.class, "userTable");
@@ -83,6 +87,9 @@ public class MainFrameTest extends JFCTestCase {
         super.tearDown();
     }
 
+    /**
+     * Tests UI during the process of adding an entry to database. Panels under test: BrowsePanel, AddPanel
+     */
     public void testAddUser() {
         String firstName = "Jerry";
         String lastName = "Smith";
@@ -126,6 +133,9 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * Tests a case in the process of adding an entry to database, where user aborts insertion.
+     */
     public void testAddUserIfCancel() {
         List<User> users = new ArrayList<>(this.users);
 
@@ -152,6 +162,13 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * A utility method for filling out text fields in classes such as EditPanel or AddPanel
+     *
+     * @param firstName String to be passed into firstNameField
+     * @param lastName  String to be passed into lastNameField
+     * @param birthDate Date to be formatted into text and sent into dateOfBirthField
+     */
     private void fillField(String firstName, String lastName, Date birthDate) {
         JTextField firstNameField = (JTextField) find(JTextField.class, "firstNameField");
         JTextField lastNameField = (JTextField) find(JTextField.class, "lastNameField");
@@ -164,8 +181,10 @@ public class MainFrameTest extends JFCTestCase {
 
 
     }
-    //Нужно ещё 6 методов на кнопки edit, remove, details
 
+    /**
+     * Tests UI during the process of viewing detailed info of an entry. Panels under test: BrowsePanel, DetailsPanel
+     */
     public void testDetails() {
         List<User> users = new ArrayList<>(this.users);
 
@@ -193,6 +212,9 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * Tests UI during the process of editing an entry in database. Panels under test: BrowsePanel, EditPanel
+     */
     public void testEditUser() {
         String firstName = "Rick";
         String lastName = "Smith";
@@ -256,6 +278,9 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * Tests a case in the process of editing an entry in database, where user aborts changes.
+     */
     public void testEditUserIfCancel() {
         List<User> users = new ArrayList<>(this.users);
 
@@ -288,6 +313,9 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * Tests UI during the process of deleting an entry from database. Panels under test: BrowsePanel, DeletePanel
+     */
     public void testDeleteUser() {
         JTable table = (JTable) find(JTable.class, "userTable");
         assertEquals(1, table.getRowCount());
@@ -319,6 +347,9 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * Tests a case in the process of deleting an entry from database, where user aborts deletion.
+     */
     public void testDeleteUserIfCancel() {
         JTable table = (JTable) find(JTable.class, "userTable");
         assertEquals(1, table.getRowCount());
@@ -346,6 +377,10 @@ public class MainFrameTest extends JFCTestCase {
         mockUserDao.verify();
     }
 
+    /**
+     * Tests a case in the process of deleting an entry from database, where user doesn't select an entry from table.
+     * This behaviour is general for all entry-specific panels: EditPanel, DetailsPanel, DeletePanel.
+     */
     public void testDeleteUserIfUserNotSelected() {
         JTable table = (JTable) find(JTable.class, "userTable");
         assertEquals(1, table.getRowCount());

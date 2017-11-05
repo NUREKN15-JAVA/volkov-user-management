@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 
+/**
+ * Represents a panel, that implements GUI for adding a user to database
+ */
 public class AddPanel extends JPanel implements ActionListener {
-
 
     private MainFrame parentFrame;
     private JPanel buttonsPanel;
@@ -23,11 +25,14 @@ public class AddPanel extends JPanel implements ActionListener {
     private JTextField lastNameField;
     private JTextField dateOfBirthField;
 
-    public AddPanel(MainFrame mainFrame) {
+    AddPanel(MainFrame mainFrame) {
         this.parentFrame = mainFrame;
         initialize();
     }
 
+    /**
+     * Initializes interface of the AddPanel object.
+     */
     private void initialize() {
         this.setName("addPanel");
         this.setLayout(new BorderLayout());
@@ -36,6 +41,11 @@ public class AddPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Implements functionality of buttons inside AddPanel
+     *
+     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
@@ -104,6 +114,13 @@ public class AddPanel extends JPanel implements ActionListener {
         return okButton;
     }
 
+    /**
+     * A method, that adds a labeled field into a panel
+     *
+     * @param panel     A container for the labeled field
+     * @param labelText Text, that is going to be inserted into a label
+     * @param textField A textfield, that is labeled with {@code labelText}
+     */
     private void addLabeledField(JPanel panel, String labelText, JTextField textField) {
         JLabel label = new JLabel(labelText);
         label.setLabelFor(textField);
@@ -111,7 +128,7 @@ public class AddPanel extends JPanel implements ActionListener {
         panel.add(textField);
     }
 
-    public JTextField getFirstNameField() {
+    private JTextField getFirstNameField() {
         if (firstNameField == null) {
             firstNameField = new JTextField();
             firstNameField.setName("firstNameField");
@@ -119,7 +136,7 @@ public class AddPanel extends JPanel implements ActionListener {
         return firstNameField;
     }
 
-    public JTextField getLastNameField() {
+    private JTextField getLastNameField() {
         if (lastNameField == null) {
             lastNameField = new JTextField();
             lastNameField.setName("lastNameField");
@@ -127,7 +144,7 @@ public class AddPanel extends JPanel implements ActionListener {
         return lastNameField;
     }
 
-    public JTextField getDateOfBirthField() {
+    private JTextField getDateOfBirthField() {
         if (dateOfBirthField == null) {
             dateOfBirthField = new JTextField();
             dateOfBirthField.setName("dateOfBirthField");
@@ -135,6 +152,9 @@ public class AddPanel extends JPanel implements ActionListener {
         return dateOfBirthField;
     }
 
+    /**
+     * Clears text fields of the object for future use
+     */
     private void clearFields() {
         getFirstNameField().setText("");
         getLastNameField().setText("");

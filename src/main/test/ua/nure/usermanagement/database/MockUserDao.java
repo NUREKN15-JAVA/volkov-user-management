@@ -6,6 +6,10 @@ import ua.nure.usermanagement.database.exception.DatabaseException;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * Implements a mock version of UserDao interface for testing purposes
+ * @see ua.nure.usermanagement.database.UserDao
+ */
 public class MockUserDao implements UserDao {
     private HashMap<Long, User> users = new HashMap<>();
     private long id = 0;

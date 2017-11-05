@@ -22,11 +22,14 @@ public class EditPanel extends JPanel implements ActionListener {
     private JTextField dateOfBirthField;
     private Long bufferedId;
 
-    public EditPanel(MainFrame mainFrame) {
+    EditPanel(MainFrame mainFrame) {
         this.parentFrame = mainFrame;
         initialize();
     }
 
+    /**
+     * Initializes interface of DetailsPanel object
+     */
     private void initialize() {
         this.setName("editPanel");
         this.setLayout(new BorderLayout());
@@ -54,7 +57,7 @@ public class EditPanel extends JPanel implements ActionListener {
         return fieldsPanel;
     }
 
-    public JTextField getFirstNameField() {
+    private JTextField getFirstNameField() {
         if (firstNameField == null) {
             firstNameField = new JTextField();
             firstNameField.setName("firstNameField");
@@ -62,7 +65,7 @@ public class EditPanel extends JPanel implements ActionListener {
         return firstNameField;
     }
 
-    public JTextField getLastNameField() {
+    private JTextField getLastNameField() {
         if (lastNameField == null) {
             lastNameField = new JTextField();
             lastNameField.setName("lastNameField");
@@ -70,7 +73,7 @@ public class EditPanel extends JPanel implements ActionListener {
         return lastNameField;
     }
 
-    public JTextField getDateOfBirthField() {
+    private JTextField getDateOfBirthField() {
         if (dateOfBirthField == null) {
             dateOfBirthField = new JTextField();
             dateOfBirthField.setName("dateOfBirthField");
@@ -78,6 +81,11 @@ public class EditPanel extends JPanel implements ActionListener {
         return dateOfBirthField;
     }
 
+    /**
+     * Implements functionality of buttons inside DetailsPanel
+     *
+     * @see java.awt.event.ActionListener
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
@@ -133,7 +141,12 @@ public class EditPanel extends JPanel implements ActionListener {
         return okButton;
     }
 
-    public void showUser(Long id) {
+    /**
+     * Sets up user data for viewing
+     *
+     * @param id An id of viewed user
+     */
+    void showUser(Long id) {
         try {
             bufferedId = id;
             User user = parentFrame.getUserDao().find(id);
@@ -147,6 +160,9 @@ public class EditPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Clears text fields of the object for future use
+     */
     private void clearFields() {
         getFirstNameField().setText("");
         getLastNameField().setText("");

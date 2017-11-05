@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A panel. used for deleting a user from database
+ */
 public class DeletePanel extends JPanel implements ActionListener {
     private Long bufferedId;
     private MainFrame parentFrame;
@@ -21,6 +24,9 @@ public class DeletePanel extends JPanel implements ActionListener {
         initialize();
     }
 
+    /**
+     * Initializes panel
+     */
     private void initialize() {
         this.setName("deletePanel");
         this.setLayout(new BorderLayout());
@@ -64,6 +70,11 @@ public class DeletePanel extends JPanel implements ActionListener {
         parentFrame.showBrowsePanel();
     }
 
+    /**
+     * sets the id of user, that is going to be deleted
+     *
+     * @param id id of existing user
+     */
     public void setBufferedId(Long id) {
         this.bufferedId = id;
     }

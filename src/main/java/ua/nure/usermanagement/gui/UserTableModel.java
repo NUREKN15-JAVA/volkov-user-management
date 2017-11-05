@@ -7,6 +7,10 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * An implementation of AbstractTableModel for the user management database
+ * @see javax.swing.table.AbstractTableModel
+ */
 public class UserTableModel extends AbstractTableModel {
     private static final String[] COLUMN_NAMES = {TextManager.getString("userTableModel.id"),
             TextManager.getString("userTableModel.first.name"),
