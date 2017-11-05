@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     private JPanel detailsPanel;
 
     private UserDao userDao;
+    private JPanel deletePanel;
 
     public MainFrame() {
         super();
@@ -51,7 +52,8 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new MainFrame().setVisible(true);
+        MainFrame mainFrame = new MainFrame();
+        mainFrame.setVisible(true);
     }
 
     public void showAddPanel() {
@@ -72,25 +74,27 @@ public class MainFrame extends JFrame {
         return addPanel;
     }
 
-    public void showEditPanel() {
-        showPanel(getEditPanel());
+    public void showEditPanel(Long id) {
+        showPanel(getEditPanel(id));
     }
 
-    public JPanel getEditPanel() {
+    public JPanel getEditPanel(Long id) {
         if (editPanel == null) {
             editPanel = new EditPanel(this);
         }
+        ((EditPanel) editPanel).showUser(id);
         return editPanel;
     }
 
-    public void showDetailsPanel(String firstName, String lastName) {
-        showPanel(getDetailsPanel(firstName, lastName));
+    public void showDetailsPanel(Long id) {
+        showPanel(getDetailsPanel(id));
     }
 
-    public JPanel getDetailsPanel(String firstName, String lastName) {
+    public JPanel getDetailsPanel(Long id) {
         if (detailsPanel == null) {
-            detailsPanel = new DetailsPanel(this, firstName, lastName);
+            detailsPanel = new DetailsPanel(this);
         }
+        ((DetailsPanel) detailsPanel).showUser(id);
         return detailsPanel;
     }
 
@@ -100,5 +104,17 @@ public class MainFrame extends JFrame {
 
     public UserDao getUserDao() {
         return userDao;
+    }
+
+    public void showDeletePanel(Long id) {
+        showPanel(getDeletePanel(id));
+    }
+
+    private JPanel getDeletePanel(Long id) {
+        if(deletePanel == null) {
+            deletePanel = new DeletePanel(this);
+        }
+        ((DeletePanel) deletePanel).setBufferedId(id);
+        return deletePanel;
     }
 }

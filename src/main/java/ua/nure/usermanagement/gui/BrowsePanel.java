@@ -121,18 +121,23 @@ public class BrowsePanel extends JPanel implements ActionListener {
             parentFrame.showAddPanel();
         }
         if ("edit".equalsIgnoreCase(actionCommand)) {
-            this.setVisible(false);
-            parentFrame.showEditPanel();
+            if (userTable.getSelectedRow() != -1) {
+                Long selectedUserId = (Long) userTable.getValueAt(userTable.getSelectedRow(), 0);
+                this.setVisible(false);
+                parentFrame.showEditPanel(selectedUserId);
+            }
         }
         if ("delete".equalsIgnoreCase(actionCommand)) {
-
+            if (userTable.getSelectedRow() != -1) {
+                this.setVisible(false);
+                parentFrame.showDeletePanel(((Long) userTable.getValueAt(userTable.getSelectedRow(), 0)));
+            }
         }
         if ("details".equalsIgnoreCase(actionCommand)) {
             if (userTable.getSelectedRow() != -1) {
-                int selectedUserIndex = userTable.getSelectedRow();
+                Long selectedUserId = (Long) userTable.getValueAt(userTable.getSelectedRow(), 0);
                 this.setVisible(false);
-                parentFrame.showDetailsPanel(((String) userTable.getModel().getValueAt(selectedUserIndex, 1)),
-                        ((String) userTable.getModel().getValueAt(selectedUserIndex, 2)));
+                parentFrame.showDetailsPanel(selectedUserId);
             }
         }
     }

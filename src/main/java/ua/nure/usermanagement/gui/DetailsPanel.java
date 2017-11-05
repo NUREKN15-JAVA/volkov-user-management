@@ -1,11 +1,14 @@
 package ua.nure.usermanagement.gui;
 
+import ua.nure.usermanagement.User;
+import ua.nure.usermanagement.database.exception.DatabaseException;
 import ua.nure.usermanagement.util.TextManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 
 public class DetailsPanel extends JPanel implements ActionListener {
     private MainFrame parentFrame;
@@ -14,10 +17,11 @@ public class DetailsPanel extends JPanel implements ActionListener {
     private JButton backButton;
     private JTextField firstNameField;
     private JTextField lastNameField;
+    private JTextField dateOfBirthField;
 
-    public DetailsPanel(MainFrame mainFrame, String firstName, String lastName) {
+    public DetailsPanel(MainFrame mainFrame) {
         this.parentFrame = mainFrame;
-        initialize(firstName,lastName);
+        initialize();
     }
 
     private void addLabeledField(JPanel panel, String labelText, JTextField textField) {
@@ -27,13 +31,11 @@ public class DetailsPanel extends JPanel implements ActionListener {
         panel.add(textField);
     }
 
-    private void initialize(String firstName, String lastName) {
+    private void initialize() {
         this.setName("detailsPanel");
         this.setLayout(new BorderLayout());
         this.add(getFieldsPanel(), BorderLayout.NORTH);
         this.add(getButtonsPanel(), BorderLayout.SOUTH);
-        getFirstNameField().setText(firstName);
-        getLastNameField().setText(lastName);
     }
 
     private JPanel getButtonsPanel() {
@@ -47,14 +49,15 @@ public class DetailsPanel extends JPanel implements ActionListener {
     private JPanel getFieldsPanel() {
         if (fieldsPanel == null) {
             fieldsPanel = new JPanel();
-            fieldsPanel.setLayout(new GridLayout(2, 2));
+            fieldsPanel.setLayout(new GridLayout(3, 2));
             addLabeledField(fieldsPanel, TextManager.getString("addPanel.first.name"), getFirstNameField());
             addLabeledField(fieldsPanel, TextManager.getString("addPanel.last.name"), getLastNameField());
+            addLabeledField(fieldsPanel, TextManager.getString("addPanel.date.of.birth"), getDateOfBirthField());
         }
         return fieldsPanel;
     }
 
-    public JTextField getFirstNameField() {
+    private JTextField getFirstNameField() {
         if (firstNameField == null) {
             firstNameField = new JTextField();
             firstNameField.setEditable(false);
@@ -63,7 +66,7 @@ public class DetailsPanel extends JPanel implements ActionListener {
         return firstNameField;
     }
 
-    public JTextField getLastNameField() {
+    private JTextField getLastNameField() {
         if (lastNameField == null) {
             lastNameField = new JTextField();
             lastNameField.setEditable(false);
@@ -72,7 +75,16 @@ public class DetailsPanel extends JPanel implements ActionListener {
         return lastNameField;
     }
 
-    public JButton getBackButton() {
+    public JTextField getDateOfBirthField() {
+        if (dateOfBirthField == null) {
+            dateOfBirthField = new JTextField();
+            dateOfBirthField.setEditable(false);
+            dateOfBirthField.setName("dateOfBirthField");
+        }
+        return dateOfBirthField;
+    }
+
+    private JButton getBackButton() {
         if (backButton == null) {
             backButton = new JButton();
             backButton.setText(TextManager.getString("detailsPanel.back"));
@@ -86,6 +98,7 @@ public class DetailsPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("back".equalsIgnoreCase(e.getActionCommand())) {
+            setVisible(false);
             clearFields();
             parentFrame.showBrowsePanel();
         }
@@ -94,5 +107,18 @@ public class DetailsPanel extends JPanel implements ActionListener {
     private void clearFields() {
         getFirstNameField().setText("");
         getLastNameField().setText("");
+    }
+
+    public void showUser(Long id){
+        try {
+            User user = parentFrame.getUserDao().find(id);
+            getFirstNameField().setText(user.getFirstName());
+            getLastNameField().setText(user.getLastName());
+            getDateOfBirthField().setText(DateFormat.getDateInstance().format(user.getDateOfBirth()));
+        } catch (DatabaseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            this.setVisible(false);
+            parentFrame.showBrowsePanel();
+        }
     }
 }
