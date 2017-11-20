@@ -9,14 +9,26 @@ import ua.nure.usermanagement.User;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+/**
+ * An implementation of a {@code MockServletTestCase} for the {@link EditServlet}
+ */
 public class EditServletTest extends MockServletTestCase {
 
+    /**
+     * Sets up a new version of an {@link EditServlet} for each test
+     *
+     * @throws Exception If any malfunction occurs
+     */
     @Override
     public void setUp() throws Exception {
         super.setUp();
         createServlet(EditServlet.class);
     }
 
+    /**
+     * Tests basic functionality of {@link EditServlet}, which is
+     * updating an entry if the correct input and signal is given
+     */
     @Test
     public void testEdit() {
         User user = createJerry();
@@ -29,6 +41,9 @@ public class EditServletTest extends MockServletTestCase {
         doPost();
     }
 
+    /**
+     * Tests a case, when firstName parameter wasn't added to the request
+     */
     @Test
     public void testEditEmptyFirstName() {
         User user = createJerry();
@@ -41,6 +56,9 @@ public class EditServletTest extends MockServletTestCase {
         assertNotNull(errorMessage);
     }
 
+    /**
+     * Tests a case, when lastName parameter wasn't added to the request
+     */
     @Test
     public void testEditEmptyLastName() {
         User user = createJerry();
@@ -53,8 +71,11 @@ public class EditServletTest extends MockServletTestCase {
         assertNotNull(errorMessage);
     }
 
+    /**
+     * Tests a case, when dateOfBirth parameter is in a wrong format (must be date format by default)
+     */
     @Test
-    public void testEditEmptyDateOfBirth() {
+    public void testEditIncorrectDateOfBirth() {
         User user = createJerry();
         addRequestParameter("id", user.getId().toString());
         addRequestParameter("firstName", user.getFirstName());
@@ -64,14 +85,5 @@ public class EditServletTest extends MockServletTestCase {
         doPost();
         String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
         assertNotNull(errorMessage);
-    }
-
-    private User createJerry() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return new User(1000L, "Jerry", "Smith", calendar.getTime());
     }
 }

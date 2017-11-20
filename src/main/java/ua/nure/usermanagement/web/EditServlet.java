@@ -14,8 +14,22 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 
+/**
+ * An implementation of {@link HttpServlet} for processing the requests
+ * of editing an entry from "users" table in database
+ */
 @WebServlet(name = "editServlet",urlPatterns = "/edit")
 public class EditServlet extends HttpServlet {
+
+    /**
+     * This method processes all requests that come through
+     * him and divides them based on the users command
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("ok") != null) {
@@ -27,14 +41,35 @@ public class EditServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Calls a jsp page for the editing of a specific entry
+     * @param req Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void showPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/edit.jsp").forward(req, resp);
     }
 
+    /**
+     * Nullifies all changes of an entry and returns user to the browse page.
+     * @param req Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     private void doCancel(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/browse").forward(req, resp);
     }
 
+    /**
+     * Applies all changes of an entry and returns user to the browse page.
+     * @param req Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doOk(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = null;
         try {
@@ -58,6 +93,13 @@ public class EditServlet extends HttpServlet {
         req.getRequestDispatcher("/browse").forward(req, resp);
     }
 
+    /**
+     * A utility method for getting user data from the request
+     * @param req Request scope of the web app
+     * @return Returns a User object filled with data from the request
+     * @throws ValidationException If not all of the required parameters are found
+     * @throws ParseException If given date information isn't in a parsable date-format
+     */
     protected User getUser(HttpServletRequest req) throws ValidationException, ParseException {
         User user = new User();
         user.setId(Long.valueOf(req.getParameter("id")));

@@ -11,13 +11,18 @@
 <html>
 <head>
     <title>User Management/Delete</title>
+    <style>
+        input[type="button"]{
+            width:20px;
+        }
+    </style>
 </head>
 <body>
 <jsp:useBean id="user" class="ua.nure.usermanagement.User" scope="session"/>
 
-    <p><b>First name</b> ${user.firstName}</p>
-    <p><b>Last name</b> ${user.lastName}</p>
-    <p><b>Date of birth</b> <fmt:formatDate value="${user.dateOfBirth}" type="date" dateStyle="medium"/></p>
+    <p><b>First name:</b> ${user.firstName}</p>
+    <p><b>Last name:</b> ${user.lastName}</p>
+    <p><b>Date of birth:</b> <fmt:formatDate value="${user.dateOfBirth}" type="date" dateStyle="medium"/></p>
     <p>Are you sure, that you want to delete this entry?</p>
     <form method="post" action="${requestScope.contextPath}/delete">
         <input type="submit" name="ok" value="Yes">

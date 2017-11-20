@@ -3,27 +3,33 @@ package ua.nure.usermanagement.web;
 import org.junit.Test;
 import ua.nure.usermanagement.User;
 
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
+/**
+ * An implementation of a {@code MockServletTestCase} for the BrowseServlet
+ */
 public class BrowseServletTest extends MockServletTestCase {
 
-
+    /**
+     * Sets up a new version of a BrowseServlet for each test
+     *
+     * @throws Exception If any malfunction occurs
+     */
     public void setUp() throws Exception {
         super.setUp();
         createServlet(BrowseServlet.class);
 
     }
 
-
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    /**
+     * Tests basic functionality of BrowseServlet, which is visualising
+     * all the entries in "users" table of the database
+     */
     @Test
     public void testBrowse() {
         User user = createJerry();
@@ -35,6 +41,9 @@ public class BrowseServletTest extends MockServletTestCase {
         assertSame(usersList, collection);
     }
 
+    /**
+     * Test a case, when user sends a request of editing a selected entry
+     */
     @Test
     public void testEdit() {
         User user = createJerry();
@@ -47,6 +56,9 @@ public class BrowseServletTest extends MockServletTestCase {
         assertSame(user, returnedUser);
     }
 
+    /**
+     * Test a case, when user sends a request of deleting a selected entry
+     */
     @Test
     public void testDelete() {
         User user = createJerry();
@@ -59,6 +71,9 @@ public class BrowseServletTest extends MockServletTestCase {
         assertSame(user, returnedUser);
     }
 
+    /**
+     * Test a case, when user sends a request of showing detailed information of a selected entry
+     */
     @Test
     public void testDetails() {
         User user = createJerry();
@@ -69,14 +84,5 @@ public class BrowseServletTest extends MockServletTestCase {
         User returnedUser = (User) getWebMockObjectFactory().getMockSession().getAttribute("user");
         assertNotNull(returnedUser);
         assertSame(user, returnedUser);
-    }
-
-    private User createJerry() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return new User(1000L, "Jerry", "Smith", calendar.getTime());
     }
 }

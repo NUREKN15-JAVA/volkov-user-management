@@ -12,9 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-@WebServlet(name = "browseServlet",urlPatterns = "/browse")
+/**
+ * An implementation of {@link HttpServlet} for processing the requests
+ * of visualising and changing data in table "users" of the database
+ */
+@WebServlet(name = "browseServlet", urlPatterns = "/browse")
 public class BrowseServlet extends HttpServlet {
 
+    /**
+     * This method processes all requests that come through
+     * him and divides them based on the users command
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("add") != null) {
@@ -30,9 +43,17 @@ public class BrowseServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Processes a request for a detailed visualisation of a selected entry
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     private void details(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") == null) {
-            req.setAttribute("error", "You fool! You should've selected a user first!");
+            req.setAttribute("error", "Please, select a user via a radio button before proceeding");
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
@@ -47,9 +68,17 @@ public class BrowseServlet extends HttpServlet {
         req.getRequestDispatcher("/details").forward(req, resp);
     }
 
+    /**
+     * Processes a request for a deleting of a selected entry
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") == null) {
-            req.setAttribute("error", "You fool! You should've selected a user first!");
+            req.setAttribute("error", "Please, select a user via a radio button before proceeding");
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
         }
         try {
@@ -63,9 +92,17 @@ public class BrowseServlet extends HttpServlet {
         req.getRequestDispatcher("/delete").forward(req, resp);
     }
 
+    /**
+     * Processes a request for an editing of a selected entry
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") == null) {
-            req.setAttribute("error", "You fool! You should've selected a user first!");
+            req.setAttribute("error", "Please, select a user via a radio button before proceeding");
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
@@ -80,10 +117,27 @@ public class BrowseServlet extends HttpServlet {
         req.getRequestDispatcher("/edit").forward(req, resp);
     }
 
+    /**
+     * Processes a request for an adding of an entry
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/add").forward(req, resp);
     }
 
+    /**
+     * Processes a request for a visualisation of data
+     * contained in a table "users" in database
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     private void browse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Collection<User> users;
         try {

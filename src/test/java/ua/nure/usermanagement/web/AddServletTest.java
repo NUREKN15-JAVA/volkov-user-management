@@ -4,17 +4,30 @@ import org.junit.Test;
 import ua.nure.usermanagement.User;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * An implementation of a {@link MockServletTestCase} for the {@link AddServlet}
+ */
 public class AddServletTest extends MockServletTestCase {
+
+    /**
+     * Sets up a new version of an {@link AddServlet} for each test
+     *
+     * @throws Exception If any malfunction occurs
+     */
     @Override
     public void setUp() throws Exception {
         super.setUp();
         createServlet(AddServlet.class);
     }
 
+    /**
+     * Tests basic functionality of {@link AddServlet}, which is
+     * adding an entry given the correct input of all parameters
+     * and a proper signal
+     */
     @Test
     public void testAdd() {
         User user = createJerry();
@@ -28,6 +41,9 @@ public class AddServletTest extends MockServletTestCase {
         doPost();
     }
 
+    /**
+     * Tests a case, when firstName parameter wasn't added to the request
+     */
     @Test
     public void testAddEmptyFirstName() {
         User user = createJerry();
@@ -39,6 +55,9 @@ public class AddServletTest extends MockServletTestCase {
         assertNotNull(errorMessage);
     }
 
+    /**
+     * Tests a case, when lastName parameter wasn't added to the request
+     */
     @Test
     public void testAddEmptyLastName() {
         User user = createJerry();
@@ -50,8 +69,11 @@ public class AddServletTest extends MockServletTestCase {
         assertNotNull(errorMessage);
     }
 
+    /**
+     * Tests a case, when dateOfBirth parameter is in a wrong format (must be date format by default)
+     */
     @Test
-    public void testAddEmptyDateOfBirth() {
+    public void testAddIncorrectDateOfBirth() {
         User user = createJerry();
         addRequestParameter("lastName", user.getLastName());
         addRequestParameter("firstName", user.getFirstName());
@@ -60,14 +82,5 @@ public class AddServletTest extends MockServletTestCase {
         doPost();
         String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
         assertNotNull(errorMessage);
-    }
-
-    private User createJerry() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        return new User(1000L, "Jerry", "Smith", calendar.getTime());
     }
 }

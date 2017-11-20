@@ -13,14 +13,34 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 
-@WebServlet(name = "addServlet",urlPatterns = "/add")
-public class AddServlet extends EditServlet{
+/**
+ * An implementation of {@link EditServlet} for processing the requests
+ * of adding an entry to the "users" table of database
+ */
+@WebServlet(name = "addServlet", urlPatterns = "/add")
+public class AddServlet extends EditServlet {
 
+    /**
+     * Calls a jsp page for the adding of a new entry
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void showPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/add.jsp").forward(req, resp);
     }
 
+    /**
+     * Inserts a new entry into the database and returns user to the browse page.
+     *
+     * @param req  Request scope of the web app
+     * @param resp Response scope of the web app
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doOk(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = null;
@@ -44,6 +64,14 @@ public class AddServlet extends EditServlet{
         req.getRequestDispatcher("/browse").forward(req, resp);
     }
 
+    /**
+     * A utility method for getting necessary user data from the request
+     *
+     * @param req Request scope of the web app
+     * @return Returns a User object filled with data from the request
+     * @throws ValidationException
+     * @throws ParseException
+     */
     @Override
     public User getUser(HttpServletRequest req) throws ValidationException, ParseException {
         User user = new User();

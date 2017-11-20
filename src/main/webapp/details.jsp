@@ -11,13 +11,18 @@
 <html>
 <head>
     <title>User Management/Details</title>
+    <style>
+        input[type="button"]{
+            width:20px;
+        }
+    </style>
 </head>
 <body>
 <jsp:useBean id="user" class="ua.nure.usermanagement.User" scope="session"/>
 
-    <p><b>First name</b> ${user.firstName}</p>
-    <p><b>Last name</b> ${user.lastName}</p>
-    <p><b>Date of birth</b> <fmt:formatDate value="${user.dateOfBirth}" type="date" dateStyle="medium"/></p>
+    <p><b>First name:</b> ${user.firstName}</p>
+    <p><b>Last name:</b> ${user.lastName}</p>
+    <p><b>Date of birth:</b> <fmt:formatDate value="${user.dateOfBirth}" type="date" dateStyle="medium"/></p>
 
     <form method="post" action="${requestScope.contextPath}/details">
         <input type="submit" name="back" value="Back">
