@@ -53,6 +53,7 @@ public class EditServlet extends HttpServlet {
         } catch (DatabaseException e) {
             req.setAttribute("error", "So... Um, there is an error in the database: " + e.getMessage());
             showPage(req, resp);
+            return;
         }
         req.getRequestDispatcher("/browse").forward(req, resp);
     }
@@ -68,6 +69,9 @@ public class EditServlet extends HttpServlet {
             throw new ValidationException("Oi, you forgot to enter the last name!");
         }
         user.setLastName(req.getParameter("lastName"));
+        if(req.getParameter("dateOfBirth")== null){
+            throw new ValidationException("Oi, you forgot to enter the date of birth!");
+        }
         user.setDateOfBirth(DateFormat.getDateInstance().parse(req.getParameter("dateOfBirth")));
         return user;
     }

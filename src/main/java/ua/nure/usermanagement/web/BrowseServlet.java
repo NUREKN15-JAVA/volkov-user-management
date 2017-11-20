@@ -30,14 +30,24 @@ public class BrowseServlet extends HttpServlet {
         }
     }
 
-    private void details(HttpServletRequest req, HttpServletResponse resp) {
-
+    private void details(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("id") == null) {
+            req.setAttribute("error", "You fool! You should've selected a user first!");
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        try {
+            User user = DaoFactory.getInstance().getUserDao().find(Long.valueOf(req.getParameter("id")));
+            req.getSession().setAttribute("user", user);
+        } catch (DatabaseException e) {
+            req.setAttribute("error", "So... Um, there is an error in the database: " + e.getMessage());
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        req.getRequestDispatcher("/details").forward(req, resp);
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
-    }
-
-    private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") == null) {
             req.setAttribute("error", "You fool! You should've selected a user first!");
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
@@ -48,13 +58,30 @@ public class BrowseServlet extends HttpServlet {
         } catch (DatabaseException e) {
             req.setAttribute("error", "So... Um, there is an error in the database: " + e.getMessage());
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        req.getRequestDispatcher("/delete").forward(req, resp);
+    }
+
+    private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getParameter("id") == null) {
+            req.setAttribute("error", "You fool! You should've selected a user first!");
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        try {
+            User user = DaoFactory.getInstance().getUserDao().find(Long.valueOf(req.getParameter("id")));
+            req.getSession().setAttribute("user", user);
+        } catch (DatabaseException e) {
+            req.setAttribute("error", "So... Um, there is an error in the database: " + e.getMessage());
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
         }
         req.getRequestDispatcher("/edit").forward(req, resp);
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/add").forward(req, resp);
-
     }
 
     private void browse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -47,7 +47,31 @@ public class BrowseServletTest extends MockServletTestCase {
         assertSame(user, returnedUser);
     }
 
-    private User createJerry(){
+    @Test
+    public void testDelete() {
+        User user = createJerry();
+        getMockUserDao().expectAndReturn("find", 1000L, user);
+        addRequestParameter("id", String.valueOf(1000L));
+        addRequestParameter("delete", "Delete");
+        doPost();
+        User returnedUser = (User) getWebMockObjectFactory().getMockSession().getAttribute("user");
+        assertNotNull(returnedUser);
+        assertSame(user, returnedUser);
+    }
+
+    @Test
+    public void testDetails() {
+        User user = createJerry();
+        getMockUserDao().expectAndReturn("find", 1000L, user);
+        addRequestParameter("id", String.valueOf(1000L));
+        addRequestParameter("details", "Details");
+        doPost();
+        User returnedUser = (User) getWebMockObjectFactory().getMockSession().getAttribute("user");
+        assertNotNull(returnedUser);
+        assertSame(user, returnedUser);
+    }
+
+    private User createJerry() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
