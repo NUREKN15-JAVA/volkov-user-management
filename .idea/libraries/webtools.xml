@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="webtools">
+    <CLASSES>
+      <root url="file://D:/Tools/Java/webtools" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://D:/Tools/Java/webtools/mockrunner-0.3.6/doc/api" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://D:/Tools/Java/webtools/mockrunner-0.3.6/src" />
+      <root url="file://D:/Tools/Java/webtools/mockrunner-0.3.6/srcj2ee1.3" />
+      <root url="file://D:/Tools/Java/webtools/mockrunner-0.3.6/srcjdk1.3" />
+      <root url="file://D:/Tools/Java/webtools" />
+    </SOURCES>
+    <jarDirectory url="file://D:/Tools/Java/webtools" recursive="false" />
+    <jarDirectory url="file://D:/Tools/Java/webtools" recursive="false" type="SOURCES" />
+  </library>
+</component>

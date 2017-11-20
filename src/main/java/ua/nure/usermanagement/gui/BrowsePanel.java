@@ -1,5 +1,6 @@
 package ua.nure.usermanagement.gui;
 
+import ua.nure.usermanagement.User;
 import ua.nure.usermanagement.database.exception.DatabaseException;
 import ua.nure.usermanagement.util.TextManager;
 
@@ -114,7 +115,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         try {
             userTable.setModel(new UserTableModel(parentFrame.getUserDao().findAll()));
         } catch (DatabaseException e) {
-            userTable.setModel(new UserTableModel(new ArrayList<>()));
+            userTable.setModel(new UserTableModel(new ArrayList<User>()));
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
