@@ -13,11 +13,12 @@ import java.util.Collection;
  * @see ua.nure.usermanagement.database.UserDao
  */
 class HSQLdbUserDao implements UserDao {
-    public static final String INSERT_INTO_USERS_FIRSTNAME_LASTNAME_DATEOFBIRTH_VALUES = "insert INTO users(firstname,lastname,dateofbirth) values(?,?,?)";
+    private static final String INSERT_INTO_USERS_FIRSTNAME_LASTNAME_DATEOFBIRTH_VALUES = "insert INTO users(firstname,lastname,dateofbirth) values(?,?,?)";
     private static final String SELECT_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
-    public static final String UPDATE_USERS_SET_FIRSTNAME_LASTNAME_DATEOFBIRTH_WHERE_ID = "UPDATE users SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
-    public static final String DELETE_FROM_USERS_WHERE_ID = "DELETE FROM users WHERE id = ?";
+    private static final String UPDATE_USERS_SET_FIRSTNAME_LASTNAME_DATEOFBIRTH_WHERE_ID = "UPDATE users SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
+    private static final String DELETE_FROM_USERS_WHERE_ID = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_USERS_BY_FULL_NAME = "SELECT * FROM users WHERE FIRSTNAME = ? AND LASTNAME = ?";
     ConnectionFactory connectionFactory;
 
     public HSQLdbUserDao(ConnectionFactory connectionFactory) {
@@ -34,6 +35,7 @@ class HSQLdbUserDao implements UserDao {
     public void setConnectionFactory(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
+
 
     /**
      * @param user all fields of user must be filled except of id
@@ -189,14 +191,8 @@ class HSQLdbUserDao implements UserDao {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_USERS);
             while (resultSet.next()) {
-                User createdUser = new User();
-                createdUser.setId(new Long(resultSet.getLong(1)));
-                createdUser.setFirstName(resultSet.getString(2));
-                createdUser.setLastName(resultSet.getString(3));
-                createdUser.setDateOfBirth(new java.util.Date(resultSet.getDate(4).getTime()));
-                userList.add(createdUser);
+                userList.add(extractData(resultSet));
             }
-
             resultSet.close();
             statement.close();
             connection.close();
@@ -206,5 +202,46 @@ class HSQLdbUserDao implements UserDao {
         } catch (DatabaseException e1) {
             throw e1;
         }
+    }
+
+    @Override
+    public Collection<User> find(String firstName, String lastName) {
+        Collection<User> userList = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = connectionFactory.createConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_USERS_BY_FULL_NAME);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                userList.add(extractData(resultSet));
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            return userList;
+        } catch (DatabaseException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return userList;
+    }
+
+    public User extractData(ResultSet resultSet) throws SQLException {
+        User createdUser = new User();
+        createdUser.setId(new Long(resultSet.getLong(1)));
+        createdUser.setFirstName(resultSet.getString(2));
+        createdUser.setLastName(resultSet.getString(3));
+        createdUser.setDateOfBirth(new java.util.Date(resultSet.getDate(4).getTime()));
+        return createdUser;
     }
 }

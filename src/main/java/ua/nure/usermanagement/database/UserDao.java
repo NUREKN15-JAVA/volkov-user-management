@@ -53,4 +53,6 @@ public interface UserDao {
      * @param factory a factory that will be used to generate connections for this DAO
      */
     public void setConnectionFactory(ConnectionFactory factory);
+
+    public Collection<User> find(String firstName, String lastName) throws DatabaseException;
 }

@@ -49,4 +49,9 @@ public class MockUserDao implements UserDao {
     public void setConnectionFactory(ConnectionFactory factory) {
         //Empty on purpose
     }
+
+    @Override
+    public Collection<User> find(String firstName, String lastName) {
+        throw new UnsupportedOperationException("Sorry, no implementation for you");
+    }
 }

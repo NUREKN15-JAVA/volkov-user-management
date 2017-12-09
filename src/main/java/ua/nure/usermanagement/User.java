@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * A class-container for information about one user. Contained data corresponds to table users in usermanager db.
  */
-public class User{
+public class User {
     private Long id;
     private String firstName;
     private String lastName;
@@ -35,6 +35,12 @@ public class User{
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public User(Long id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Long getId() {
@@ -70,7 +76,6 @@ public class User{
     }
 
     /**
-     *
      * @return a string, that contains both first and last name of user, uses ', ' as delimiter
      */
     public String getFullName() {
@@ -79,7 +84,6 @@ public class User{
     }
 
     /**
-     *
      * @return a long, that represents users age in years.
      */
     public long getAge() {
