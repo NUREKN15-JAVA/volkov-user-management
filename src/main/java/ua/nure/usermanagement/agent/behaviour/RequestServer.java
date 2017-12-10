@@ -11,8 +11,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
+/**
+ * A cyclic behaviour for a search agent. Determines a process of receiving a message
+ * and processing it according to the type of it.
+ */
 public class RequestServer extends CyclicBehaviour {
-    @Override
+    /**
+     * Defines different types of processing, that happen based on the messages type
+     */
     public void action() {
         ACLMessage message = myAgent.receive();
         if (message == null) {
@@ -27,6 +33,12 @@ public class RequestServer extends CyclicBehaviour {
         }
     }
 
+    /**
+     * A part of message processing, that deals with search responses from other search agents
+     *
+     * @param message received message
+     * @return Returns a list of user data, that has been sent from another agent
+     */
     private Collection<User> parseMessage(ACLMessage message) {
         Collection<User> users = new ArrayList<>();
         String content = message.getContent();
@@ -40,6 +52,12 @@ public class RequestServer extends CyclicBehaviour {
         return users;
     }
 
+    /**
+     * A part of message processing, that deals with search responses from other search agents
+     *
+     * @param message received message
+     * @return Returns a reply for a request, that consists of formatted data about requested users
+     */
     private ACLMessage createReply(ACLMessage message) {
         ACLMessage reply = message.createReply();
         String content = message.getContent();

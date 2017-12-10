@@ -204,6 +204,14 @@ class HSQLdbUserDao implements UserDao {
         }
     }
 
+    /**
+     * Finds and returns a user entry based on its first name and last name
+     *
+     * @param firstName a first name of user. Must not be null
+     * @param lastName a last name of user. Must not be null
+     * @return A list of users, that have first name equal to {@code firstName} and
+     * last name equal to {@code lastName}
+     */
     @Override
     public Collection<User> find(String firstName, String lastName) {
         Collection<User> userList = new ArrayList<>();
@@ -236,7 +244,14 @@ class HSQLdbUserDao implements UserDao {
         return userList;
     }
 
-    public User extractData(ResultSet resultSet) throws SQLException {
+    /**
+     * A utility method for extraction of data form a result set
+     * @param resultSet a result set
+     * @return A {@link User} object, that represents data, extracted
+     * from {@code resultSet}
+     * @throws SQLException if something is wrong with result set
+     */
+    private User extractData(ResultSet resultSet) throws SQLException {
         User createdUser = new User();
         createdUser.setId(new Long(resultSet.getLong(1)));
         createdUser.setFirstName(resultSet.getString(2));

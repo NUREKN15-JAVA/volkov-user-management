@@ -15,6 +15,9 @@ import ua.nure.usermanagement.agent.exception.SearchException;
 import ua.nure.usermanagement.util.TextManager;
 import ua.nure.usermanagement.agent.SearchAgent;
 
+/**
+ * An interface for {@link SearchAgent}.
+ */
 public class SearchGui extends JFrame {
 
     private SearchAgent agent;

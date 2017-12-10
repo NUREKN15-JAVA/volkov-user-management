@@ -4,6 +4,10 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
+/**
+ * A behaviour in search agents' lifecycle, that creates a search request for other agents in
+ * the system
+ */
 public class SearchRequestBehaviour extends Behaviour {
 
     private AID[] aids;
@@ -16,6 +20,9 @@ public class SearchRequestBehaviour extends Behaviour {
         this.aids = aids;
     }
 
+    /**
+     * Generates a request message for others agents in the system
+     */
     @Override
     public void action() {
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
